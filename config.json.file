@@ -1,0 +1,46 @@
+{
+	"inbounds": [{
+		"port": 23045,
+		"listen": "0.0.0.0",
+		"protocol": "vmess",
+		"outboundTag": "cloudflare-warp",
+		"settings": {
+			"clients": [{
+				"id": "81b87e7c-57a2-4d8f-813e-dc30bd0cceda"
+			}]
+		},
+		"streamSettings": {
+			"network": "tcp",
+			"tcpSettings": {
+				"header": {
+					"type": "none"
+				}
+			}
+		},
+		"sniffing": {
+			"enabled": true,
+			"destOverride": ["http", "tls"]
+		}
+	}],
+	"outbounds": [{
+		"tag": "cloudflare-warp",
+		"protocol": "socks",
+		"settings": {
+			"servers": [{
+				"address": "127.0.0.1",
+				"port": 40000
+			}]
+		}
+	}, {
+		"protocol": "freedom",
+		"settings": {}
+	}],
+	"routing": {
+		"domainStrategy": "IPOnDemand",
+		"rules": [{
+			"type": "field",
+			"outboundTag": "cloudflare-warp",
+			"domain": ["chat.openai.com","geosite:netflix"]
+		}]
+	}
+}
